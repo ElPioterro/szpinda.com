@@ -1,0 +1,35 @@
+{
+  "name": "lusion-connectors",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "main": "src/index.js",
+  "dependencies": {
+    "@monogrid/gainmap-js": "^3.1.0",
+    "@react-three/drei": "10.0.0",
+    "@react-three/fiber": "^9.1.0",
+    "@react-three/postprocessing": "3.0.4",
+    "@react-three/rapier": "1.1.1",
+    "@types/three": "0.162.0",
+    "leva": "^0.10.0",
+    "r3f-perf": "7.1.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.4.0",
+    "react-scripts": "5.0.1",
+    "styled-components": "^6.1.16",
+    "three": "^0.172.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": [
+    ">1%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
