@@ -4,17 +4,16 @@ import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
 import { Physics, RigidBody } from "@react-three/rapier";
 import { Leva, useControls } from "leva";
 // prettier-ignore
-import { useGLTF, Environment, MeshRefractionMaterial, OrbitControls, Svg} from "@react-three/drei";
+import { useGLTF, Environment, MeshRefractionMaterial, OrbitControls} from "@react-three/drei";
 // prettier-ignore
 import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing";
 import { EXRLoader } from "three/examples/jsm/loaders/EXRLoader";
 import { Perf } from "r3f-perf";
-import { KernelSize, BlendFunction, MaskPass } from "postprocessing";
+import { BlendFunction } from "postprocessing";
 
-const exrTexture = "diamond_09_pg.exr";
+// const exrTexture = "diamond_09_pg.exr";
+const exrTexture = "output.exr";
 const sceneOffsetConst = 0.45;
-import mainLogo from "./signature(1)-final.svg"; // Adjust path to your SVG file
-import { Logo } from "./Logo";
 
 function CameraController({ yOffset }) {
   const { camera } = useThree();
@@ -118,7 +117,7 @@ function Scene(props) {
         camera={{ position: [0, 0, 12], fov: 17.5, near: 0.1, far: 200 }}
         {...props}
       >
-        {/* <Perf position="top-left" /> */}
+        <Perf position="top-left" />
         {/* <Environment files={exrTexture} /> */}
         <Suspense fallback={null}>
           <Physics debug={config.debug} gravity={[0, 0, 0]}>
