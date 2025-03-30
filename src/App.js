@@ -51,7 +51,7 @@ export const App = () => {
         </ContentContainer> */}
         <SceneContainer>
           {/* SVG Overlay */}
-          <div
+          {/* <div
             style={{
               position: "absolute",
               top: "50%",
@@ -62,8 +62,8 @@ export const App = () => {
               mixBlendMode: "difference", // Inverts colors of text behind it
             }}
           >
-            {/* <img src={mainLogo} height="350px" alt="signature" /> */}
-          </div>
+            <img src={mainLogo} height="350px" alt="signature" />
+          </div> */}
           {/* Canvas */}
           <Scene />
         </SceneContainer>
