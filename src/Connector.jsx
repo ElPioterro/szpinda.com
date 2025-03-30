@@ -26,7 +26,7 @@ function Connector({
   const timeSpeed = 0.1;
 
   useFrame((state, delta) => {
-    console.log("update physics");
+    // console.log("update physics");
     if (api.current) {
       const { mouse, viewport } = state;
       const translation = api.current.translation();
