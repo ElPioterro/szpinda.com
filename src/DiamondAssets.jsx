@@ -11,7 +11,7 @@ export function DiamondAssetsProvider({ children }) {
   // const texture = useKTX2("output.ktx2");
 
   console.log("load Model&Texture");
-  console.log(texture);
+  // console.log(texture);
 
   return (
     <DiamondAssetsContext.Provider value={{ model, texture }}>
