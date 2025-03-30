@@ -20,7 +20,7 @@ body,
 body {
   background: #f0f0f0;
   /* background-image: url("../public/wallhaven-9m6268.jpg"); */
-  background-image: url("../public/needstudio.png");
+  background-image: url("../public/needstudio.webp");
   background-repeat: round;
 }
 body::before {
