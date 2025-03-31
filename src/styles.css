@@ -30,8 +30,7 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  /* background-color: rgba(0, 0, 0, 0.2); */
-  z-index: -1; /* Ensure the overlay stays behind the content */
+  z-index: -1;
   backdrop-filter: saturate(180%) blur(10px);
 }
 
@@ -68,25 +67,25 @@ a {
   cursor: pointer;
 }
 
-.container {
-  display: grid;
-  /* padding: 3em 5em 3em 5em; */
-  /* grid-template-rows: auto 1fr; */
-  /* gap: 3em; */
-  position: absolute;
+/* .container {
+  display: grid; */
+/* padding: 3em 5em 3em 5em; */
+/* grid-template-rows: auto 1fr; */
+/* gap: 3em; */
+/* position: absolute;
   width: 100%;
   height: 100%;
   overflow: hidden;
-}
+} */
 
-.nav {
+/* .nav {
   display: grid;
   grid-template-columns: auto 0.25fr 1fr 0.25fr auto auto;
   gap: 1em;
 }
 h1 {
   color: white;
-}
+} */
 
 /* .label {
   margin: 0;
