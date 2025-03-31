@@ -34,11 +34,30 @@ function CameraController({ yOffset }) {
   return null; // This component doesn't render anything
 }
 
+// Custom hook to detect mobile device
+function useDeviceDetect() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleDeviceChange = (e) => {
+      setIsMobile(e.matches);
+    };
+
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
+    setIsMobile(mediaQuery.matches);
+
+    mediaQuery.addEventListener("change", handleDeviceChange);
+    return () => mediaQuery.removeEventListener("change", handleDeviceChange);
+  }, []);
+
+  return isMobile;
+}
+
 function Scene(props) {
-  // const cameraProps = useMemo(
-  //   () => ({ position: [0, 0, 12], fov: 17.5, near: 0.1, far: 200 }),
-  //   []
-  // );
+  const isMobile = useDeviceDetect();
+
+  // Set camera position based on device type
+  const cameraZPosition = isMobile ? 15 : 12;
 
   return (
     <>
@@ -47,9 +66,12 @@ function Scene(props) {
         dpr={[1, 1.5]}
         gl={{ antialias: false }}
         // cam : 0 0 15
-        // camera={cameraProps}
-
-        camera={{ position: [0, 0, 12], fov: 17.5, near: 0.1, far: 20 }}
+        camera={{
+          position: [0, 0, cameraZPosition],
+          fov: 17.5,
+          near: 0.1,
+          far: 20,
+        }}
         {...props}
       >
         <Perf position="top-left" />
