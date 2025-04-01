@@ -17,7 +17,6 @@ import { Logo } from "./Logo";
 
 // const exrTexture = "diamond_09_pg.exr";
 const exrTexture = "output.exr";
-const sceneOffsetConst = 0.45;
 
 function CameraController({ yOffset }) {
   const { camera } = useThree();
@@ -55,6 +54,7 @@ function useDeviceDetect() {
 
 function Scene(props) {
   const isMobile = useDeviceDetect();
+  const sceneOffsetConst = isMobile ? 0 : 0.45;
 
   // Set camera position based on device type
   const cameraZPosition = isMobile ? 15 : 12;
@@ -63,9 +63,11 @@ function Scene(props) {
     <>
       <Canvas
         shadows={false}
-        dpr={[1, 1.5]}
-        gl={{ antialias: false }}
-        // cam : 0 0 15
+        dpr={isMobile ? [1, 1] : [1, 1.5]} // Lower DPR on mobile
+        gl={{
+          antialias: isMobile ? false : true,
+          powerPreference: "low-power",
+        }} // Disable antialias, use low-power mode// cam : 0 0 15
         camera={{
           position: [0, 0, cameraZPosition],
           fov: 17.5,
@@ -74,29 +76,52 @@ function Scene(props) {
         }}
         {...props}
       >
-        <Perf position="top-left" />
+        {isMobile ? null : <Perf position="top-left" />}
+        {/* <Perf position="top-left" /> */}
         {/* <Environment files={exrTexture} /> */}
         <Suspense fallback={null}>
           <DiamondAssetsProvider>
-            <Physics debug={false} gravity={[0, 0, 0]}>
+            <Physics
+              debug={false}
+              gravity={[0, 0, 0]}
+              timeStep={isMobile ? 1 / 30 : 1 / 60}
+            >
+              {" "}
               {/* <Connector position={[-4, -2, 1]} /> */}
-
               <Connector
                 position={[0, 0, 0]}
                 // position={[2, 7, 5]}
                 yOffset={sceneOffsetConst}
+                // isMobile={isMobile}
               />
             </Physics>
           </DiamondAssetsProvider>
         </Suspense>
         <EffectComposer enableNormalPass={false}>
-          <Bloom
+          {/* <Bloom
             luminanceThreshold={0}
             intensity={0.43}
             levels={7}
             mipmapBlur={true}
             luminanceSmoothing={0} // smoothness of the luminance threshold. Range is [0, 1]
-          />
+          /> */}
+          {isMobile ? (
+            // Simplified effects for mobile
+            <Bloom
+              luminanceThreshold={0}
+              intensity={0.2}
+              levels={3}
+              mipmapBlur={false}
+            />
+          ) : (
+            // Full effects for desktop
+            <Bloom
+              luminanceThreshold={0}
+              intensity={0.43}
+              levels={7}
+              mipmapBlur={true}
+            />
+          )}
           {/* <Bloom
           luminanceThreshold={config.luminanceThreshold}
           intensity={config.intensity}
@@ -106,7 +131,7 @@ function Scene(props) {
         /> */}
           <Vignette
             offset={0.32}
-            darkness={0.79}
+            darkness={isMobile ? 0.5 : 0.79}
             eskil={false}
             blendFunction={BlendFunction.NORMAL}
           />
