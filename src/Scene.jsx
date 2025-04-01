@@ -92,7 +92,7 @@ function Scene(props) {
                 position={[0, 0, 0]}
                 // position={[2, 7, 5]}
                 yOffset={sceneOffsetConst}
-                // isMobile={isMobile}
+                isMobile={isMobile}
               />
             </Physics>
           </DiamondAssetsProvider>

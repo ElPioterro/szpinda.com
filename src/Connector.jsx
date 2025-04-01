@@ -9,6 +9,7 @@ function Connector({
   vec = new THREE.Vector3(),
   r = THREE.MathUtils.randFloatSpread,
   yOffset = 0,
+  isMobile = false,
   ...props
 }) {
   const api = useRef();
@@ -32,7 +33,10 @@ function Connector({
       if (!dragged) {
         // Apply spring-like force when not dragging
         api.current.applyImpulse(
-          vec.copy(api.current.translation()).negate().multiplyScalar(0.2)
+          vec
+            .copy(api.current.translation())
+            .negate()
+            .multiplyScalar(isMobile ? 0.5 : 0.3) // Stronger on mobile
         );
       } else {
         // Convert normalized lastTouchPos to world coordinates
@@ -110,7 +114,7 @@ function Connector({
 
   return (
     <RigidBody
-      linearDamping={1.9}
+      linearDamping={isMobile ? 1.0 : 1.9} // Lower damping on mobile
       angularDamping={0.4}
       friction={0.1}
       position={pos}
