@@ -1,13 +1,31 @@
-import React, { useLayoutEffect } from "react";
+import React, { useEffect, useRef } from "react"; // Removed useLayoutEffect since it’s not used
 import { BrowserRouter as Router } from "react-router-dom";
 import styled from "styled-components";
 import Scene from "./Scene";
 import { Logo } from "./Logo";
 
 export const App = () => {
+  const mainRef = useRef();
+
+  // Set height dynamically based on window.innerHeight
+  useEffect(() => {
+    const updateHeight = () => {
+      if (mainRef.current) {
+        mainRef.current.style.height = `${window.innerHeight}px`;
+      }
+    };
+
+    // Set initial height
+    updateHeight();
+
+    // Update height on resize (e.g., when address bar collapses)
+    window.addEventListener("resize", updateHeight);
+    return () => window.removeEventListener("resize", updateHeight);
+  }, []);
+
   return (
     <Router>
-      <Main>
+      <Main ref={mainRef}>
         <canvas id="gradient-canvas" data-transition-in />
         <Menu>
           <Logo
@@ -39,8 +57,7 @@ const Main = styled.main`
   display: flex;
   flex-direction: row;
   width: 100vw;
-  height: 100vh;
-  overflow: hidden;
+  overflow: hidden; /* Prevent scrolling */
 
   @media only screen and (max-width: 1200px) {
     flex-direction: column;
@@ -52,15 +69,14 @@ const SceneContainer = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100%; /* Matches Main's dynamic height */
   z-index: 0;
 
   /* Prevent scrolling on mobile devices */
   @media only screen and (max-width: 1200px) {
-    touch-action: none; /* Disables touch scrolling */
+    touch-action: none;
   }
 
-  /* Add a darkening overlay */
   &::after {
     content: "";
     position: absolute;

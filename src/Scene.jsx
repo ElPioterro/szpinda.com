@@ -54,7 +54,7 @@ function useDeviceDetect() {
 
 function Scene(props) {
   const isMobile = useDeviceDetect();
-  const sceneOffsetConst = isMobile ? 0 : 0.45;
+  const sceneOffsetConst = 0.45;
 
   // Set camera position based on device type
   const cameraZPosition = isMobile ? 15 : 12;
