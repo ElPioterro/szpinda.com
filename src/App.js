@@ -16,6 +16,10 @@ export const App = () => {
   const mainRef = useRef();
   const menuRef = useRef();
   const [menuOpen, setMenuOpen] = useState(false);
+  // References for the hamburger menu spans
+  const topBarRef = useRef();
+  const middleBarRef = useRef();
+  const bottomBarRef = useRef();
 
   // Close menu when clicking outside
   const handleClickOutside = (event) => {
@@ -47,19 +51,61 @@ export const App = () => {
     return () => window.removeEventListener("resize", updateHeight);
   }, []);
 
-  // Animate menu open/close
+  // Animate menu open/close and hamburger transformation
   useEffect(() => {
     if (menuOpen) {
+      // Menu opening animation
       gsap.to(menuRef.current, {
         y: 0,
         duration: 0.5,
         ease: "power3.out",
       });
+
+      // Hamburger to X animation
+      gsap.to(topBarRef.current, {
+        rotation: 45,
+        y: 9,
+        duration: 0.4,
+        ease: "power2.out",
+      });
+
+      gsap.to(middleBarRef.current, {
+        opacity: 0,
+        duration: 0.3,
+      });
+
+      gsap.to(bottomBarRef.current, {
+        rotation: -45,
+        y: -9,
+        duration: 0.4,
+        ease: "power2.out",
+      });
     } else {
+      // Menu closing animation
       gsap.to(menuRef.current, {
         y: "100%",
         duration: 0.5,
         ease: "power3.in",
+      });
+
+      // X to hamburger animation
+      gsap.to(topBarRef.current, {
+        rotation: 0,
+        y: 0,
+        duration: 0.4,
+        ease: "power2.out",
+      });
+
+      gsap.to(middleBarRef.current, {
+        opacity: 1,
+        duration: 0.4,
+      });
+
+      gsap.to(bottomBarRef.current, {
+        rotation: 0,
+        y: 0,
+        duration: 0.4,
+        ease: "power2.out",
       });
     }
   }, [menuOpen]);
@@ -79,10 +125,12 @@ export const App = () => {
           <HamburgerButton
             id="hamburger-button"
             onClick={() => setMenuOpen(!menuOpen)}
+            aria-expanded={menuOpen}
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
           >
-            <span />
-            <span />
-            <span />
+            <HamburgerBar ref={topBarRef} className="top" />
+            <HamburgerBar ref={middleBarRef} className="middle" />
+            <HamburgerBar ref={bottomBarRef} className="bottom" />
           </HamburgerButton>
         </Menu>
         {/* Social Media Icons on Main Page */}
@@ -244,6 +292,32 @@ const Menu = styled.div`
   }
 `;
 
+// const HamburgerButton = styled.button`
+//   background: none;
+//   border: none;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: space-between;
+//   width: 30px;
+//   height: 24px;
+//   cursor: pointer;
+//   z-index: 2;
+
+//   span {
+//     display: block;
+//     width: 100%;
+//     height: 4px;
+//     background-color: white;
+//     border-radius: 2px;
+//     transition: all 0.3s ease;
+//   }
+
+//   &:hover span {
+//     background-color: #aaa;
+//   }
+// `;
+
+// Update hamburger button styling for the animation
 const HamburgerButton = styled.button`
   background: none;
   border: none;
@@ -253,19 +327,26 @@ const HamburgerButton = styled.button`
   width: 30px;
   height: 24px;
   cursor: pointer;
-  z-index: 2;
+  z-index: 10;
+  position: relative;
+`;
 
-  span {
-    display: block;
-    width: 100%;
-    height: 4px;
-    background-color: white;
-    border-radius: 2px;
-    transition: all 0.3s ease;
+const HamburgerBar = styled.span`
+  display: block;
+  width: 100%;
+  height: 4px;
+  background-color: white;
+  border-radius: 2px;
+  transform-origin: center;
+  will-change: transform, opacity;
+
+  &.top,
+  &.bottom {
+    transform-origin: 50% 50%;
   }
 
-  &:hover span {
-    background-color: #aaa;
+  &:nth-child(2) {
+    margin: 4px 0;
   }
 `;
 
