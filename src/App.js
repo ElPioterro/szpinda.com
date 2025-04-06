@@ -1,12 +1,21 @@
-import React, { useEffect, useRef, useState } from "react"; // Added useState for menu toggle
+import React, { useEffect, useRef, useState } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import styled from "styled-components";
+import { gsap } from "gsap";
 import Scene from "./Scene";
 import { Logo } from "./Logo";
+import {
+  FaUser,
+  FaBriefcase,
+  FaGithub,
+  FaLinkedin,
+  FaTwitter,
+} from "react-icons/fa";
 
 export const App = () => {
   const mainRef = useRef();
-  const [menuOpen, setMenuOpen] = useState(false); // State to track menu visibility
+  const menuRef = useRef();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   // Close menu when clicking outside
   const handleClickOutside = (event) => {
@@ -32,13 +41,28 @@ export const App = () => {
       }
     };
 
-    // Set initial height
     updateHeight();
 
-    // Update height on resize (e.g., when address bar collapses)
     window.addEventListener("resize", updateHeight);
     return () => window.removeEventListener("resize", updateHeight);
   }, []);
+
+  // Animate menu open/close
+  useEffect(() => {
+    if (menuOpen) {
+      gsap.to(menuRef.current, {
+        y: 0,
+        duration: 0.5,
+        ease: "power3.out",
+      });
+    } else {
+      gsap.to(menuRef.current, {
+        y: "100%",
+        duration: 0.5,
+        ease: "power3.in",
+      });
+    }
+  }, [menuOpen]);
 
   return (
     <Router>
@@ -61,12 +85,77 @@ export const App = () => {
             <span />
           </HamburgerButton>
         </Menu>
-        {menuOpen && (
-          <DropdownMenu id="menu-container">
+        {/* Social Media Icons on Main Page */}
+        <SocialIconsContainer>
+          <SocialIcon
+            href="https://github.com/yourusername"
+            target="_blank"
+            aria-label="GitHub"
+          >
+            <FaGithub />
+          </SocialIcon>
+          <SocialIcon
+            href="https://linkedin.com/in/yourusername"
+            target="_blank"
+            aria-label="LinkedIn"
+          >
+            <FaLinkedin />
+          </SocialIcon>
+          <SocialIcon
+            href="https://twitter.com/yourusername"
+            target="_blank"
+            aria-label="Twitter"
+          >
+            <FaTwitter />
+          </SocialIcon>
+        </SocialIconsContainer>
+        <DropdownMenu ref={menuRef} id="menu-container">
+          <MenuSection>
+            <SectionTitle>
+              <FaUser /> About Me
+            </SectionTitle>
+            <AboutMeContent>
+              <ProfileImage src="/path-to-your-image.jpg" alt="Your Name" />
+              <AboutMeText>
+                <h2>Your Name</h2>
+                <h3>Your Title/Role</h3>
+                <p>
+                  A brief introduction about yourself. Describe your expertise,
+                  experience, and what drives you as a developer. This section
+                  helps visitors quickly understand who you are and what you do.
+                </p>
+                <p>
+                  You can mention your key skills, professional philosophy, or
+                  career highlights here.
+                </p>
+              </AboutMeText>
+            </AboutMeContent>
+          </MenuSection>
+
+          <MenuSection>
+            <SectionTitle>
+              <FaBriefcase /> Portfolio
+            </SectionTitle>
+            <PortfolioGrid>
+              {portfolioItems.map((item, index) => (
+                <PortfolioItem key={index} href={item.link}>
+                  <PortfolioImage src={item.image} alt={item.title} />
+                  <PortfolioOverlay>
+                    <h3>{item.title}</h3>
+                    <p>{item.description}</p>
+                    <span>View Project →</span>
+                  </PortfolioOverlay>
+                </PortfolioItem>
+              ))}
+            </PortfolioGrid>
+          </MenuSection>
+
+          <ButtonContainer>
             <ButtonLink href="#link1">Main Button 1</ButtonLink>
             <ButtonLink href="#link2">Main Button 2</ButtonLink>
-          </DropdownMenu>
-        )}
+          </ButtonContainer>
+        </DropdownMenu>
+
         <SceneContainer>
           <Scene />
         </SceneContainer>
@@ -75,13 +164,36 @@ export const App = () => {
   );
 };
 
+// Add this before your App component
+const portfolioItems = [
+  {
+    title: "Project 1",
+    description: "A short description of your project",
+    image: "/path-to-project1-image.jpg",
+    link: "https://project1.com",
+  },
+  {
+    title: "Project 2",
+    description: "A short description of your project",
+    image: "/path-to-project2-image.jpg",
+    link: "https://project2.com",
+  },
+  {
+    title: "Project 3",
+    description: "A short description of your project",
+    image: "/path-to-project3-image.jpg",
+    link: "https://project3.com",
+  },
+  // Add more projects as needed
+];
+
 // Styled Components
 const Main = styled.main`
   position: absolute;
   display: flex;
   flex-direction: row;
   width: 100vw;
-  overflow: hidden; /* Prevent scrolling */
+  overflow: hidden;
 
   @media only screen and (max-width: 1200px) {
     flex-direction: column;
@@ -93,10 +205,9 @@ const SceneContainer = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%; /* Matches Main's dynamic height */
+  height: 100%;
   z-index: 0;
 
-  /* Prevent scrolling on mobile devices */
   @media only screen and (max-width: 1200px) {
     touch-action: none;
   }
@@ -159,38 +270,244 @@ const HamburgerButton = styled.button`
 `;
 
 const DropdownMenu = styled.div`
-  position: absolute;
-  top: 5rem; /* Adjust based on your design */
+  position: fixed;
+  bottom: 0;
   left: 50%;
-  transform: translateX(-50%);
-  width: 90%;
-  max-width: 400px;
-  background-color: rgba(0, 0, 0, 0.9);
-  color: white;
-  z-index: 1;
+  transform: translateX(-50%) translateY(100%);
+  width: 75%;
+  height: 75%;
+  max-height: 75vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(15px); /* Glossy effect */
+
+  border-radius: 20px 20px 0 0;
   padding: 2rem;
-  border-radius: 20px 20px 0 0; /* Rounded top-left and top-right corners */
-  box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 1rem;
+  z-index: 10;
+  box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3);
+  overflow-y: auto;
+  will-change: transform;
 `;
 
+// const DropdownMenu = styled.div`
+//   position: fixed;
+//   bottom: 0;
+//   left: 50%;
+//   transform: translateX(-50%) translateY(100%);
+//   width: 75%;
+//   height: 75%;
+//   max-height: 75vh;
+//   background-color: rgba(0, 0, 0, 0.6);
+//   backdrop-filter: blur(15px);
+//   border-radius: 20px 20px 0 0;
+//   padding: 2rem;
+//   display: flex;
+//   flex-direction: column;
+//   z-index: 10;
+//   box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3);
+//   overflow-y: auto;
+//   will-change: transform;
+//   position: relative; /* Add this to support absolute positioning of social icons */
+// `;
+
 const ButtonLink = styled.a`
-  display: block;
-  width: 100%;
+  display: inline-block;
+  width: 45%;
   text-align: center;
-  padding: 1rem 2rem;
-  background-color: #333;
+  padding: 2rem 1rem;
+  margin: 0 2.5%;
+  background-color: #555;
   color: white;
   text-decoration: none;
   font-size: 1.2rem;
   font-weight: bold;
-  border-radius: 10px;
-  transition: background-color 0.3s ease;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 
   &:hover {
-    background-color: #555;
+    background-color: #4a7ab3; /* Bluish accent color */
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(50, 100, 220, 0.3);
   }
+
+  &:active {
+    transform: translateY(-1px);
+  }
+`;
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: auto; /* Pushes the buttons toward the bottom */
+`;
+
+const MenuSection = styled.section`
+  margin-bottom: 2rem;
+  width: 100%;
+`;
+
+const SectionTitle = styled.h2`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  color: white;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+
+  svg {
+    font-size: 1.2rem;
+  }
+`;
+
+const AboutMeContent = styled.div`
+  display: flex;
+  gap: 2rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+`;
+
+const ProfileImage = styled.img`
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+`;
+
+const AboutMeText = styled.div`
+  color: white;
+
+  h2 {
+    margin-top: 0;
+    font-size: 1.8rem;
+  }
+
+  h3 {
+    margin-top: 0.5rem;
+    font-size: 1.2rem;
+    color: #4a7ab3;
+    font-weight: normal;
+  }
+
+  p {
+    line-height: 1.6;
+    margin: 1rem 0;
+  }
+`;
+
+const PortfolioGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  width: 100%;
+`;
+
+const PortfolioItem = styled.a`
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  height: 200px;
+  text-decoration: none;
+
+  &:hover {
+    img {
+      transform: scale(1.05);
+    }
+
+    div {
+      opacity: 1;
+    }
+  }
+`;
+
+const PortfolioImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+`;
+
+const PortfolioOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  color: white;
+  text-align: center;
+
+  h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.2rem;
+  }
+
+  p {
+    font-size: 0.9rem;
+    margin: 0 0 1rem;
+  }
+
+  span {
+    color: #4a7ab3;
+    font-weight: bold;
+  }
+`;
+
+const SocialLinks = styled.div`
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  gap: 0.75rem;
+`;
+
+const SocialIcon = styled.a`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-size: 1.4rem;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    background: #4a7ab3;
+    transform: translateY(-3px) scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  &:active {
+    transform: translateY(-1px);
+  }
+`;
+
+// Social Media Icons Container
+const SocialIconsContainer = styled.div`
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  z-index: 5;
 `;
