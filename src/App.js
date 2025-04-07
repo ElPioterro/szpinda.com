@@ -13,6 +13,22 @@ import {
 } from "react-icons/fa";
 
 export const App = () => {
+  // Device detection for responsive adjustments
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkDevice = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    // Check on initial load
+    checkDevice();
+
+    // Add resize listener
+    window.addEventListener("resize", checkDevice);
+    return () => window.removeEventListener("resize", checkDevice);
+  }, []);
+
   const mainRef = useRef();
   const menuRef = useRef();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -64,7 +80,7 @@ export const App = () => {
       // Hamburger to X animation
       gsap.to(topBarRef.current, {
         rotation: 45,
-        y: 9,
+        y: 12,
         duration: 0.4,
         ease: "power2.out",
       });
@@ -76,7 +92,7 @@ export const App = () => {
 
       gsap.to(bottomBarRef.current, {
         rotation: -45,
-        y: -9,
+        y: -12,
         duration: 0.4,
         ease: "power2.out",
       });
@@ -110,18 +126,23 @@ export const App = () => {
     }
   }, [menuOpen]);
 
+  console.log("is mobile?:", isMobile);
+
   return (
     <Router>
       <Main ref={mainRef}>
         <canvas id="gradient-canvas" data-transition-in />
         <Menu>
-          <Logo
-            width={100}
-            height={100}
-            fillColor={"white"}
-            strokeColor={"#AAA"}
-            strokeWidth={1}
-          />
+          {/* Logo with appropriate fixed sizes */}
+          <LogoContainer>
+            <Logo
+              width={isMobile ? 150 : 200} // Increased from 110/140
+              height={isMobile ? 150 : 200} // Increased from 110/140
+              fillColor={"white"}
+              strokeColor={"#AAA"}
+              strokeWidth={1}
+            />
+          </LogoContainer>
           <HamburgerButton
             id="hamburger-button"
             onClick={() => setMenuOpen(!menuOpen)}
@@ -272,24 +293,53 @@ const SceneContainer = styled.div`
   }
 `;
 
+// Update the Menu styled component for better logo positioning
 const Menu = styled.div`
   position: absolute;
-  top: 1rem;
+  top: 0;
   left: 0;
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 4em;
+  align-items: center;
+  padding: 2.5rem 4.5rem; // Increased padding all around
   z-index: 1;
 
-  > svg {
-    width: 64px;
+  /* Add shadow to make logo pop against any background */
+  & > svg {
+    filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25));
   }
 
-  @media only screen and (max-width: 1200px) {
-    padding: 2em 4em;
+  @media only screen and (max-width: 768px) {
+    padding: 1.5rem 1.5rem; // Increased from 1rem all around
+
+    /* Scale down logo on mobile */
+    & > svg {
+      transform: scale(0.8);
+      transform-origin: left center;
+    }
   }
+`;
+
+const LogoContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 1.5rem; // Add margin to move away from left edge
+
+  /* Increased dimensions for better visibility */
+  width: auto; // Increased from 100px
+  height: auto; // Increased from 100px
+
+  @media only screen and (max-width: 768px) {
+    width: 110px; // Increased from 80px
+    height: 110px; // Increased from 80px
+    margin-left: 0.75rem; // Smaller margin on mobile
+  }
+
+  /* Optional shadow to make logo pop */
+  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25));
 `;
 
 // const HamburgerButton = styled.button`
@@ -320,23 +370,28 @@ const Menu = styled.div`
 // Update hamburger button styling for the animation
 const HamburgerButton = styled.button`
   background: none;
+  margin-right: 1.5rem;
   border: none;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 30px;
-  height: 24px;
+  width: 40px; // Increased from 30px
+  height: 32px; // Increased from 24px
   cursor: pointer;
   z-index: 10;
   position: relative;
+
+  @media only screen and (max-width: 768px) {
+    margin-right: 0.75rem; // Smaller margin on mobile
+  }
 `;
 
 const HamburgerBar = styled.span`
   display: block;
   width: 100%;
-  height: 4px;
+  height: 5px; // Increased from 4px
   background-color: white;
-  border-radius: 2px;
+  border-radius: 0;
   transform-origin: center;
   will-change: transform, opacity;
 
@@ -346,8 +401,10 @@ const HamburgerBar = styled.span`
   }
 
   &:nth-child(2) {
-    margin: 4px 0;
+    margin: 6px 0; // Increased from 4px
   }
+
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 `;
 
 const DropdownMenu = styled.div`
