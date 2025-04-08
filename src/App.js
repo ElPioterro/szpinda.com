@@ -77,6 +77,13 @@ export const App = () => {
         ease: "power3.out",
       });
 
+      // Animate About Me text
+      gsap.fromTo(
+        ".about-me-text",
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.4, ease: "power3.out", delay: 0.1 }
+      );
+
       // Hamburger to X animation
       gsap.to(topBarRef.current, {
         rotation: 45,
@@ -157,7 +164,7 @@ export const App = () => {
         {/* Social Media Icons on Main Page */}
         <SocialIconsContainer>
           <SocialIcon
-            href="https://github.com/yourusername"
+            href="https://github.com/ElPioterro"
             target="_blank"
             aria-label="GitHub"
           >
@@ -174,6 +181,7 @@ export const App = () => {
             href="https://twitter.com/yourusername"
             target="_blank"
             aria-label="Twitter"
+            disabled
           >
             <FaTwitter />
           </SocialIcon>
@@ -184,18 +192,21 @@ export const App = () => {
               <FaUser /> About Me
             </SectionTitle>
             <AboutMeContent>
-              <ProfileImage src="/path-to-your-image.jpg" alt="Your Name" />
-              <AboutMeText>
-                <h2>Your Name</h2>
-                <h3>Your Title/Role</h3>
+              <ProfileImage src="/picture.webp" alt="Piotr Szpinda" />
+              <AboutMeText className="about-me-text">
+                <h2>Piotr Szpinda</h2>
+                <h3>Enthusiast Programmer & Student</h3>
                 <p>
-                  A brief introduction about yourself. Describe your expertise,
-                  experience, and what drives you as a developer. This section
-                  helps visitors quickly understand who you are and what you do.
+                  Yo, I’m Piotr! Just a student who’s way too into coding and
+                  making random cool stuff. I’m that guy who gets hyped about
+                  turning lines of code into art, throwing websites together,
+                  and messing with Python and AI when I’ve got a free minute.
                 </p>
                 <p>
-                  You can mention your key skills, professional philosophy, or
-                  career highlights here.
+                  I’ve got a toolbox that includes Python for my artsy
+                  experiments, WordPress for throwing together sites that
+                  actually work, React for making things pop and click, and
+                  Three.js for when I’m feeling extra fancy with 3D stuff.
                 </p>
               </AboutMeText>
             </AboutMeContent>
@@ -219,10 +230,10 @@ export const App = () => {
             </PortfolioGrid>
           </MenuSection>
 
-          <ButtonContainer>
+          {/* <ButtonContainer>
             <ButtonLink href="#link1">Main Button 1</ButtonLink>
             <ButtonLink href="#link2">Main Button 2</ButtonLink>
-          </ButtonContainer>
+          </ButtonContainer> */}
         </DropdownMenu>
 
         <SceneContainer>
@@ -236,22 +247,24 @@ export const App = () => {
 // Add this before your App component
 const portfolioItems = [
   {
-    title: "Project 1",
-    description: "A short description of your project",
-    image: "/path-to-project1-image.jpg",
-    link: "https://project1.com",
+    title: "3D Diamond Showcase",
+    description: "React Three Fiber, Rapier, PostProcessing",
+    image: "/diamond_project_thumbnail.webp",
+    link: "https://github.com/ElPioterro/szpinda.com",
   },
   {
-    title: "Project 2",
-    description: "A short description of your project",
-    image: "/path-to-project2-image.jpg",
-    link: "https://project2.com",
+    title: "PETSCII",
+    description:
+      "An art project I’m cooking up — think symbolic pixel mozaik with a modern twist. Coming soon!",
+    image: "/",
+    link: "/",
   },
   {
-    title: "Project 3",
-    description: "A short description of your project",
-    image: "/path-to-project3-image.jpg",
-    link: "https://project3.com",
+    title: "Spicetify Extention Theme",
+    description:
+      "A little something to spice up your Spotify. Still in the works, but it’s gonna be dope!",
+    image: "/",
+    link: "/",
   },
   // Add more projects as needed
 ];
