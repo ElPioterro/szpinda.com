@@ -89,8 +89,8 @@ function Scene(props) {
               {" "}
               {/* <Connector position={[-4, -2, 1]} /> */}
               <Connector
-                position={[0, 0, 0]}
-                // position={[2, 7, 5]}
+                // position={[0, 0, 0]}
+                // position={[5, 7, 5]}
                 yOffset={sceneOffsetConst}
                 isMobile={isMobile}
               />
@@ -105,11 +105,7 @@ function Scene(props) {
             mipmapBlur={true}
             luminanceSmoothing={0} // smoothness of the luminance threshold. Range is [0, 1]
           /> */}
-          {isMobile ? //   intensity={0.2} //   luminanceThreshold={0} // <Bloom // Simplified effects for mobile
-          //   levels={3}
-          //   mipmapBlur={false}
-          // />
-          null : (
+          {isMobile ? null : ( // /> //   mipmapBlur={false} //   levels={3} //   intensity={0.2} //   luminanceThreshold={0} // <Bloom // Simplified effects for mobile
             // Full effects for desktop
             <Bloom
               luminanceThreshold={0}
