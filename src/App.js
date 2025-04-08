@@ -69,6 +69,10 @@ export const App = () => {
 
   // Animate menu open/close and hamburger transformation
   useEffect(() => {
+    // Stupid fix but ok.
+    const isMobile = window.innerWidth <= 768; // Check if the device is mobile
+    const yOffset = isMobile ? 10 : 12; // Adjust the y-offset for mobile devices
+
     if (menuOpen) {
       // Menu opening animation
       gsap.to(menuRef.current, {
@@ -95,7 +99,7 @@ export const App = () => {
       // Hamburger to X animation
       gsap.to(topBarRef.current, {
         rotation: 45,
-        y: 12,
+        y: yOffset,
         duration: 0.4,
         ease: "power2.out",
       });
@@ -418,21 +422,23 @@ const HamburgerButton = styled.button`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 40px; // Increased from 30px
-  height: 32px; // Increased from 24px
+  width: 40px;
+  height: 32px;
   cursor: pointer;
   z-index: 10;
   position: relative;
 
   @media only screen and (max-width: 768px) {
-    margin-right: 0.75rem; // Smaller margin on mobile
+    margin-right: 0.75rem;
+    height: 28px; // Slightly smaller on mobile
+    width: 35px; // Maintain proportions
   }
 `;
 
 const HamburgerBar = styled.span`
   display: block;
   width: 100%;
-  height: 5px; // Increased from 4px
+  height: 5px;
   background-color: white;
   border-radius: 0;
   transform-origin: center;
@@ -443,13 +449,14 @@ const HamburgerBar = styled.span`
     transform-origin: 50% 50%;
   }
 
-  &:nth-child(2) {
-    margin: 6px 0; // Increased from 4px
-  }
-
+  // Remove the margin-based spacing
+  // Let flex justify-content handle it naturally
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-`;
 
+  @media only screen and (max-width: 768px) {
+    height: 4px; // Slightly thinner bars on mobile
+  }
+`;
 const DropdownMenu = styled.div`
   position: fixed;
   bottom: 0;
