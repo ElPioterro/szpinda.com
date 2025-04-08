@@ -22,8 +22,11 @@ body {
   /* background-image: url("../public/wallhaven-9m6268.jpg"); */
   background-image: url("../public/needstudio.webp");
   background-repeat: round;
+  backdrop-filter: saturate(180%) blur(10px);
+  height: 100vh;
+  overflow: hidden;
 }
-body::before {
+/* body::before {
   content: "";
   position: absolute;
   top: 0;
@@ -32,7 +35,7 @@ body::before {
   height: 100%;
   z-index: -1;
   backdrop-filter: saturate(180%) blur(10px);
-}
+} */
 
 a {
   all: unset;
