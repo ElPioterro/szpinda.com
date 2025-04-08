@@ -758,7 +758,7 @@ const ProfileImageOverlay = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: auto;
   border-radius: 50%;
   background: radial-gradient(
     circle,
