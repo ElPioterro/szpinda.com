@@ -191,14 +191,14 @@ export const App = () => {
           >
             <FaGithub />
           </SocialIcon>
-          {/* <SocialIcon
-            href="https://linkedin.com/in/yourusername"
+          <SocialIcon
+            href="https://linkedin.com/in/piotr-szpinda-135a862b6"
             target="_blank"
             aria-label="LinkedIn"
           >
             <FaLinkedin />
           </SocialIcon>
-          <SocialIcon
+          {/* <SocialIcon
             href="https://twitter.com/yourusername"
             target="_blank"
             aria-label="Twitter"
