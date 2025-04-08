@@ -76,7 +76,7 @@ function Scene(props) {
         }}
         {...props}
       >
-        {isMobile ? null : <Perf position="top-left" />}
+        {/* {isMobile ? null : <Perf position="top-left" />} */}
         {/* <Perf position="top-left" /> */}
         {/* <Environment files={exrTexture} /> */}
         <Suspense fallback={null}>
@@ -105,15 +105,11 @@ function Scene(props) {
             mipmapBlur={true}
             luminanceSmoothing={0} // smoothness of the luminance threshold. Range is [0, 1]
           /> */}
-          {isMobile ? (
-            // Simplified effects for mobile
-            <Bloom
-              luminanceThreshold={0}
-              intensity={0.2}
-              levels={3}
-              mipmapBlur={false}
-            />
-          ) : (
+          {isMobile ? //   intensity={0.2} //   luminanceThreshold={0} // <Bloom // Simplified effects for mobile
+          //   levels={3}
+          //   mipmapBlur={false}
+          // />
+          null : (
             // Full effects for desktop
             <Bloom
               luminanceThreshold={0}
