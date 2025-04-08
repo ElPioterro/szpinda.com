@@ -469,6 +469,12 @@ const DropdownMenu = styled.div`
   border: 1px solid rgba(255, 255, 255, 0.1); /* Light border */
   overflow-y: auto;
   will-change: transform; /* Optimize animations */
+
+  @media (max-width: 768px) {
+    width: 100%; /* Full width on mobile */
+    border-radius: 0; /* Remove rounded corners on mobile for full-screen effect */
+    padding: 1.5rem; /* Optional: Adjust padding for mobile if desired */
+  }
 `;
 
 const MenuContent = styled.div`
