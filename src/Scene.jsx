@@ -27,7 +27,7 @@ function CameraController({ yOffset }) {
       camera.position.y += yOffset; // Pan camera up by 0.45
       hasPanned.current = true; // Mark as panned
     }
-    console.log("update Camera");
+    // console.log("update Camera");
   }, [camera]); // Dependency on camera ensures this runs when camera is ready
 
   return null; // This component doesn't render anything

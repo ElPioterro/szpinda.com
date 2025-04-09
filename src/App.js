@@ -154,7 +154,8 @@ export const App = () => {
     }
   }, [menuOpen]);
 
-  console.log("is mobile?:", isMobile);
+  // console.log("is mobile?:", isMobile);
+  // is mobile is repeated every time menu is opened but I don't care
 
   return (
     <Router>

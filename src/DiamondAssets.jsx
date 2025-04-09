@@ -17,10 +17,10 @@ export function DiamondAssetsProvider({ children }) {
   const texture = useMemo(() => {
     const loadedTexture = useLoader(EXRLoader, "output.exr");
 
-    if (!hasLogged) {
-      console.log("load Model&Texture (only once)");
-      hasLogged = true;
-    }
+    // if (!hasLogged) {
+    //   console.log("load Model&Texture (only once)");
+    //   hasLogged = true;
+    // }
 
     return loadedTexture;
   }, []);
