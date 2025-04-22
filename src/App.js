@@ -288,16 +288,15 @@ const portfolioItems = [
     link: "https://github.com/ElPioterro/szpinda.com",
   },
   {
+    title: "Spicetify Extention Theme",
+    description: "Spicetify Creator, TypeScript, CSS",
+    image: "/spicetify-project_thumbnail.webp",
+    link: "https://github.com/ElPioterro/StarryNightVibrant",
+  },
+  {
     title: "PETSCII",
     description:
       "An art project I’m cooking up — think symbolic pixel mozaik with a modern twist. Coming soon!",
-    image: "/CS-thumbnail-uncompressed.webp",
-    link: "/",
-  },
-  {
-    title: "Spicetify Extention Theme",
-    description:
-      "A little something to spice up your Spotify. Still in the works, but it’s gonna be dope!",
     image: "/CS-thumbnail-uncompressed.webp",
     link: "/",
   },
